@@ -1,7 +1,7 @@
 export interface AuthState {
   isLoggedIn: boolean;
-  user: AuthUser | null;
-  csrf: string | null;
+  role: string;
+  verificationCode: string,
 }
 
 export interface AuthUser {

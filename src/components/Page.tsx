@@ -1,7 +1,10 @@
 import React from 'react';
 
-import { Box } from '@mui/material';
+import {
+  Box, styled, Button, Typography,
+} from '@mui/material';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
 
 import { APPLICATION_NAME } from '~/config';
 
@@ -12,6 +15,12 @@ type Props = {
 };
 
 export function Page({ children, meta, title }: Props) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate('/login');
+  };
+
   return (
     <>
       <Helmet>
@@ -20,8 +29,26 @@ export function Page({ children, meta, title }: Props) {
       </Helmet>
 
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        {children}
+        <BoxStyle>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2 }}>
+            <Typography variant="caption" color="green">
+              Қазақша
+            </Typography>
+            <Typography variant="caption" color="green">
+              Руский
+            </Typography>
+          </Box>
+          <Logo />
+          <Button color="success" onClick={handleClick}>Login</Button>
+        </BoxStyle>
       </Box>
     </>
   );
 }
+
+const BoxStyle = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  margin: theme.spacing(3),
+}));

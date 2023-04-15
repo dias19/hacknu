@@ -8,9 +8,6 @@ import { Iconify } from '~/components/Iconify';
 import { HEADER } from '~/constants';
 import { useResponsive } from '~/hooks/useResponsive';
 
-import { HeaderInfo } from './HeaderInfo';
-import { HeaderNavigation } from './HeaderNavigation';
-
 const RootStyle = styled(AppBar)(({ theme }) => ({
   boxShadow: 'none',
   height: HEADER.DASHBOARD_DESKTOP_HEIGHT,
@@ -46,12 +43,6 @@ export function DashboardHeader({ onOpenSidebar }: Props) {
       <Toolbar sx={sx}>
         <BoxStyle>
           <Logo />
-          {isLaptop && (
-            <>
-              <HeaderNavigation />
-              <HeaderInfo />
-            </>
-          )}
           {!isLaptop && (
             <Iconify icon="material-symbols:menu" onClick={onOpenSidebar} width={24} height={24} />
           )}
