@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { AuthRoutes } from '~/pages/auth';
+import { ClientRoutes } from '~/pages/client';
 import { MiscRoutes } from '~/pages/misc';
 import { lazyImport } from '~/utils/lazyImport';
 
@@ -14,6 +15,7 @@ export function AppRoutes() {
       <Routes>
         {MiscRoutes}
         {AuthRoutes}
+        {ClientRoutes}
         <Route path="*" element={<Page404 />} key="404" />
       </Routes>
     </BrowserRouter>
