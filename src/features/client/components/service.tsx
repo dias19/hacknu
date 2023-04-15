@@ -17,7 +17,7 @@ export function Service() {
           mt: 3,
         }}
         >
-          Менің заказым
+          Саламатсызба ИмяФамилия
         </Typography>
         <Card sx={{ mt: 2, padding: 2 }}>
           <CardContent>
@@ -52,7 +52,6 @@ export function Service() {
               }}
             >
               Заказать доставку
-
             </Button>
           </CardContent>
         </Card>
