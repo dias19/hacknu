@@ -4,8 +4,10 @@ import {
   FLUSH, PAUSE, PERSIST, persistStore, PURGE, REGISTER, REHYDRATE,
 } from 'redux-persist';
 
+import adminAuthApi, { ADMIN_AUTH_API_REDUCER_KEY } from '~/api/admin-auth/api';
 import authApi, { AUTH_API_REDUCER_KEY } from '~/api/auth/api';
 import orderApi, { ORDER_API_REDUCER_KEY } from '~/api/order/api';
+import { adminAuthReducer, adminAuthSlice } from '~/features/admin';
 import { authReducer, authSlice } from '~/features/auth';
 import { serviceSlice, serviceReducer } from '~/features/client';
 
@@ -17,6 +19,8 @@ const reducers = {
   [ORDER_API_REDUCER_KEY]: orderApi.reducer,
   [AUTH_API_REDUCER_KEY]: authApi.reducer,
   [serviceSlice.name]: serviceReducer,
+  [adminAuthSlice.name]: adminAuthReducer,
+  [ADMIN_AUTH_API_REDUCER_KEY]: adminAuthApi.reducer,
 };
 
 const combinedReducer = combineReducers<typeof reducers>(reducers);
@@ -36,7 +40,7 @@ export const store = configureStore({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
-  }).concat([authApi.middleware, orderApi.middleware,
+  }).concat([authApi.middleware, orderApi.middleware, adminAuthApi.middleware,
     rtkQueryErrorLogger,
   ]),
 });
