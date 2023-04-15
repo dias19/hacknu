@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  Box, styled, Button, Typography,
+  Box, styled, Button, Typography, Divider,
 } from '@mui/material';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
@@ -31,8 +31,8 @@ export function Page({ children, meta, title }: Props) {
 
       <Box sx={{ display: 'flex', flexDirection: 'column' }}>
         <BoxStyle>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2 }}>
-            <Typography variant="caption" color="green">
+          <Box>
+            <Typography variant="caption" color="green" sx={{ mr: 2 }}>
               Қазақша
             </Typography>
             <Typography variant="caption" color="green">
@@ -42,6 +42,7 @@ export function Page({ children, meta, title }: Props) {
           <Logo />
           <Button color="success" onClick={handleClick}>Login</Button>
         </BoxStyle>
+        <Divider />
         {children}
       </Box>
     </>
