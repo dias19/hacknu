@@ -20,7 +20,6 @@ export function AppRoutes() {
           {ClientRoutes}
         </Route>
         {ServiceSenterRoutes}
-        {ClientRoutes}
         <Route path="*" element={<Page404 />} key="404" />
       </Routes>
     </BrowserRouter>
