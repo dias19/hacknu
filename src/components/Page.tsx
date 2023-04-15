@@ -6,6 +6,7 @@ import {
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 
+import { Logo } from '~/assets/logo';
 import { APPLICATION_NAME } from '~/config';
 
 type Props = {
@@ -41,6 +42,7 @@ export function Page({ children, meta, title }: Props) {
           <Logo />
           <Button color="success" onClick={handleClick}>Login</Button>
         </BoxStyle>
+        {children}
       </Box>
     </>
   );

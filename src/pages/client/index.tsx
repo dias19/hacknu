@@ -11,7 +11,7 @@ const { ServicePage } = lazyImport(() => import('./ServicePage'), 'ServicePage')
 
 export const ClientRoutes = [
   <Route path="" element={<HomeClientPage />} key="home-client" />,
-  <Route path="request/:request_id" element={<LoginClientPage />} key="requestId" />,
+  <Route path="request/:requestId" element={<LoginClientPage />} key="requestId" />,
   <Route path="services" element={<ServicesListPage />} key="services-list-client" />,
   <Route path="services/:id" element={<ServicePage />} key="service-page" />,
 ];
