@@ -4,21 +4,20 @@ import storage from 'redux-persist/lib/storage';
 
 import authApi from '~/api/admin-auth/api';
 
-import type { AuthState } from './types';
+import type { AdminAuthSliceType } from './types';
 
-const initialState: AuthState = {
-  role: '',
+const initialState: AdminAuthSliceType = {
+  user: null,
   isLoggedIn: false,
   verificationCode: '',
-
 };
 
-export const authSlice = createSlice({
-  name: 'authSlice',
+export const adminAuthSlice = createSlice({
+  name: 'adminAuthSlice',
   initialState,
   reducers: {
-    logout(state) {
-      state.role = '';
+    adminLogout(state) {
+      state.user = null;
       state.isLoggedIn = false;
       state.verificationCode = '';
     },
@@ -34,19 +33,19 @@ export const authSlice = createSlice({
       authApi.endpoints.confirmVerification.matchFulfilled,
       (state, { payload }) => {
         state.isLoggedIn = true;
-        state.role = payload.role;
+        state.user = { role: payload.role };
       },
     );
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { adminLogout } = adminAuthSlice.actions;
 
-export const authReducer = persistReducer(
+export const adminAuthReducer = persistReducer(
   {
-    key: 'rtk:auth',
+    key: 'rtk:adminAuth',
     storage,
-    whitelist: ['user', 'isLoggedIn'],
+    whitelist: ['admin', 'isLoggedIn'],
   },
-  authSlice.reducer,
+  adminAuthSlice.reducer,
 );

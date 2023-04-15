@@ -6,7 +6,7 @@ import {
 
 import { Page } from '~/components/Page';
 import { APPLICATION_NAME } from '~/config';
-import { LoginForm } from '~/features/auth';
+import { AdminLogin } from '~/features/admin/';
 
 const ContentStyle = styled('div')(({ theme }) => ({
   maxWidth: 480,
@@ -25,13 +25,33 @@ export function LoginPage() {
         <ContentStyle>
           <Box sx={{ mb: 5 }}>
             <Typography variant="h4" gutterBottom>
-              Войти в
+              Кіру
               {' '}
               {APPLICATION_NAME}
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Введите свои даные</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Өз информациянызды толтырыңыз</Typography>
           </Box>
-          <LoginForm />
+          Here is login dor courier
+        </ContentStyle>
+      </Container>
+    </Page>
+  );
+}
+
+export function AdminLoginPage() {
+  return (
+    <Page title="Login">
+      <Container>
+        <ContentStyle>
+          <Box sx={{ mb: 5 }}>
+            <Typography variant="h4" gutterBottom>
+              Кіру
+              {' '}
+              {APPLICATION_NAME}
+            </Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Өз информациянызды толтырыңыз</Typography>
+          </Box>
+          <AdminLogin />
         </ContentStyle>
       </Container>
     </Page>

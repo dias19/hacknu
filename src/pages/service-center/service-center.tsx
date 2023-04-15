@@ -9,6 +9,7 @@ const ContentStyle = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexWrap: 'wrap',
   overflow: 'hidden',
+  minHeight: theme.spacing(5),
 }));
 
 export function ServiceSenterPage() {
@@ -27,7 +28,7 @@ export function ServiceSenterPage() {
   return (
     <Page title="Homepage">
       <Container sx={{ paddingTop: '12px' }}>
-        <ContentStyle sx={{ ...border, ...direction, ...shadow }} />
+        <ContentStyle sx={{ ...border, ...direction, ...shadow }}>Hello</ContentStyle>
       </Container>
     </Page>
   );

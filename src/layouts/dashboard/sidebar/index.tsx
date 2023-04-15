@@ -7,7 +7,6 @@ import { useAuth } from '~/hooks/useAuth';
 import { SidebarFooter } from './SidebarFooter';
 import { SidebarHeader } from './SidebarHeader';
 import SidebarNavigation from './SidebarNavigation';
-import { UserInfoBar } from './UserInfoBar';
 
 type Props = {
   open: boolean;
@@ -21,7 +20,6 @@ export function DashboardSidebar({ open, onCloseSidebar }: Props) {
   return (
     <DrawerStyle open={open}>
       <SidebarHeader onCloseSidebar={onCloseSidebar} />
-      {user && <UserInfoBar user={user} />}
       <SidebarNavigation />
       <SidebarFooter />
     </DrawerStyle>
