@@ -16,7 +16,7 @@ export function AppRoutes() {
       <Routes>
         {MiscRoutes}
         {AuthRoutes}
-        <Route path="/client">
+        <Route path="/client/*">
           {ClientRoutes}
         </Route>
         {ServiceSenterRoutes}
