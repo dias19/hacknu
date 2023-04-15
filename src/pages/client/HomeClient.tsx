@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { Page } from '~/components/Page';
-import { HomePage } from '~/features/client/';
+import { HomeClient } from '~/features/client';
 
-export function HomeClient() {
+export function HomeClientPage() {
   return (
     <Page title="Кіру">
-      <HomePage />
+      <HomeClient />
     </Page>
   );
 }

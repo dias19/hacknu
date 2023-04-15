@@ -15,7 +15,9 @@ export function AppRoutes() {
       <Routes>
         {MiscRoutes}
         {AuthRoutes}
-        {ClientRoutes}
+        <Route path="/client">
+          {ClientRoutes}
+        </Route>
         <Route path="*" element={<Page404 />} key="404" />
       </Routes>
     </BrowserRouter>
