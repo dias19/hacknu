@@ -5,7 +5,6 @@ import {
 } from 'redux-persist';
 
 import adminAuthApi, { ADMIN_AUTH_API_REDUCER_KEY } from '~/api/admin-auth/api';
-import authApi, { AUTH_API_REDUCER_KEY } from '~/api/auth/api';
 import orderApi, { ORDER_API_REDUCER_KEY } from '~/api/order/api';
 import { adminAuthReducer, adminAuthSlice } from '~/features/admin';
 import { authReducer, authSlice } from '~/features/auth';
@@ -17,7 +16,6 @@ import { rtkQueryErrorLogger } from './middlewares/rtkQueryErrorLogger';
 const reducers = {
   [authSlice.name]: authReducer,
   [ORDER_API_REDUCER_KEY]: orderApi.reducer,
-  [AUTH_API_REDUCER_KEY]: authApi.reducer,
   [serviceSlice.name]: serviceReducer,
   [adminAuthSlice.name]: adminAuthReducer,
   [ADMIN_AUTH_API_REDUCER_KEY]: adminAuthApi.reducer,
@@ -30,7 +28,6 @@ export const rootReducer: Reducer<AppState> = (state, action) => {
     // eslint-disable-next-line no-param-reassign
     state = {} as AppState;
   }
-
   return combinedReducer(state, action);
 };
 
@@ -40,7 +37,7 @@ export const store = configureStore({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
-  }).concat([authApi.middleware, orderApi.middleware, adminAuthApi.middleware,
+  }).concat([orderApi.middleware, adminAuthApi.middleware,
     rtkQueryErrorLogger,
   ]),
 });
