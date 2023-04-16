@@ -50,11 +50,7 @@ export function AdminLoginPage() {
               {' '}
               {APPLICATION_NAME}
             </Typography>
-<<<<<<< HEAD
-            <Typography sx={{ color: 'text.secondary' }}>Введите данные</Typography>
-=======
             <Typography sx={{ color: 'text.secondary' }}>Заполните данные о вас</Typography>
->>>>>>> 632e722 (finalized the client pages)
           </Box>
           <Login />
         </ContentStyle>
