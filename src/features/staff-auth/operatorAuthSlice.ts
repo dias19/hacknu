@@ -2,6 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
+
+import authApi from '~/api/admin-auth/api';
+
 import { operatorAuthSliceType } from './types';
 
 const initialState: operatorAuthSliceType = {
@@ -22,7 +25,6 @@ export const operatorAuthSlice = createSlice({
       state.token = '';
     },
   },
-
 });
 
 export const { adminLogout } = operatorAuthSlice.actions;

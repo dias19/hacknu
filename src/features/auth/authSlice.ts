@@ -22,7 +22,6 @@ export const authSlice = createSlice({
       state.isLoggedIn = true;
     },
   },
-
 });
 
 export const { logout, assignToken } = authSlice.actions;

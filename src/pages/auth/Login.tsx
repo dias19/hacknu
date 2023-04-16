@@ -6,7 +6,9 @@ import {
 
 import { Page } from '~/components/Page';
 import { APPLICATION_NAME } from '~/config';
+
 import { HomeClient } from '~/features/client';
+
 import { Login } from '~/features/staff-auth';
 
 const ContentStyle = styled('div')(({ theme }) => ({
