@@ -10,27 +10,21 @@ import { FormProvider, RHFTextField } from '~/components/hook-form';
 import { RHFPhoneField } from '~/components/hook-form/rhf-phone-field';
 
 type OrderFormData = {
-    firstName: string,
-    lastName: string,
-    phone: string,
-    provider: string,
+    name: string,
+    phone: string
   }
 
 const codeSchema = yup.object().shape(
   {
-    firstName: yup.string().required(),
-    lastName: yup.string().required(),
+    name: yup.string().required(),
     phone: yup.string().required(),
-    provider: yup.string().required(),
   },
 );
 
-export function CreateCarrier() {
+export function CreateCarrierProvider() {
   const defaultValues = {
-    firstName: '',
-    lastName: '',
     phone: '',
-    provider: '',
+    name: '',
   };
 
   const methods = useForm<OrderFormData>({
@@ -42,9 +36,9 @@ export function CreateCarrier() {
   const {
     handleSubmit,
   } = methods;
-  const [createCarrier] = adminAuthApi.endpoints.createCarrier.useMutation();
+  const [createDeliveryProvider] = adminAuthApi.endpoints.createDeliveryProvider.useMutation();
   const onSubmit = async (data: OrderFormData) => {
-    const res = await createCarrier(data);
+    const res = await createDeliveryProvider(data);
   };
 
   return (
@@ -52,9 +46,7 @@ export function CreateCarrier() {
       methods={methods}
     >
       <Stack spacing={2}>
-        <RHFTextField name="firstName" label="Имя" color="success" />
-        <RHFTextField name="lastName" label="Фамилия" color="success" />
-        <RHFTextField name="provider" label="Название Компании" color="success" />
+        <RHFTextField name="name" label="Название Компании" color="success" />
         <RHFPhoneField
           name="phone"
           label="Номер телефона"
@@ -65,7 +57,7 @@ export function CreateCarrier() {
           onClick={handleSubmit(onSubmit)}
           size="large"
         >
-          Зарегестрировать Курьера
+          Зарегестрировать Курьерскую службу
         </Button>
       </Stack>
     </FormProviderStyle>

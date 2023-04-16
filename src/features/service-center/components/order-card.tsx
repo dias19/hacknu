@@ -17,9 +17,9 @@ type Props = {
 export function OrderCard({ order: { requesterUser, trustedUser, userRequest } }: Props) {
   const [open, setOpen] = React.useState(false);
   const [approveDelivery] = serviceCenterApi.endpoints.approveDelivery.useMutation();
-  const [handoutOrder] = serviceCenterApi.endpoints.handoutOrder.useMutation();
   const handleAccept = async () => {
-    await approveDelivery(userRequest.id).unwrap();
+    const res = await approveDelivery(userRequest.id).unwrap();
+    console.log(res);
   };
 
   const handleDeny = () => {
@@ -35,19 +35,21 @@ export function OrderCard({ order: { requesterUser, trustedUser, userRequest } }
 
   return (
     <BoxStyle>
-      <Stack spacing={1.5}>
+      <Stack spacing={1.5} sx={{ justifyContent: 'center' }}>
         <Typography variant="caption">
           ФИО клиента:
-          {' '}
-
           {requesterUser.firstName}
+          {' '}
           {requesterUser.lastName}
+          {' '}
           {requesterUser.middleName}
+          {' '}
         </Typography>
+
         {
             trustedUser && (
             <Typography variant="caption">
-              ФИО клиента:
+              ФИО довирительного человека:
               {' '}
               {trustedUser.firstName}
               {' '}
@@ -60,26 +62,36 @@ export function OrderCard({ order: { requesterUser, trustedUser, userRequest } }
         <Typography variant="caption">
           Гос-услуга:
           {' '}
-          {' '}
           {userRequest.request.serviceName}
+          <br />
+          {userRequest.id}
         </Typography>
       </Stack>
 
-      <Stack spacing={3}>
+      <Stack spacing={3} sx={{ justifyContent: 'center', alignItems: 'center' }}>
         {userRequest.status === 'pending' ? (
-          <>
-            <Button variant="outlined" color="secondary" onClick={handleAccept}>
+          <Box sx={{
+            displey: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+          }}
+          >
+            <Button color="secondary" onClick={handleAccept}>
               Принять
             </Button>
-            <Button variant="outlined" color="error" onClick={handleDeny}>
+            <Button color="error" onClick={handleDeny}>
               Отказать
             </Button>
-          </>
+          </Box>
         )
           : (
-            <Button variant="outlined" color="warning" onClick={handleHandout}>
-              Выдать
-            </Button>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Button variant="outlined" color="warning" onClick={handleHandout}>
+                Выдать
+              </Button>
+            </Box>
+
           )}
 
         <DialogForm
@@ -90,7 +102,7 @@ export function OrderCard({ order: { requesterUser, trustedUser, userRequest } }
           hasCloser
         >
           <HandoutOrderForm
-            id={userRequest.requesterUserId}
+            id={userRequest.id}
             buttonTitle="Проверить"
             onCloseForm={handleClose}
           />
@@ -103,6 +115,6 @@ export function OrderCard({ order: { requesterUser, trustedUser, userRequest } }
 const BoxStyle = styled(Box)(({ theme }) => ({
   display: 'flex',
   minWidth: '100%',
-  gap: theme.spacing(3),
   justifyContent: 'space-between',
+  alignItems: 'center',
 }));

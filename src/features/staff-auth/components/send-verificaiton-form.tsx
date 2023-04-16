@@ -14,7 +14,7 @@ type FormValuesProps = {
   phoneNumber: string,
 };
 const SendSchema = Yup.object().shape({
-  phoneNumber: Yup.string().required('Ұялы телефоныңызды толық толтырыңыз'),
+  phoneNumber: Yup.string().required('Введите полностью номер телефона'),
 });
 
 const defaultValues = {
@@ -48,7 +48,7 @@ export function SendVerificationForm({ setVerification }: Props) {
       <Stack spacing={3}>
         <RHFPhoneField
           name="phoneNumber"
-          label="Ұйалы телефон нөмір"
+          label="Сотовый номер телефона"
         />
         <LoadingButton
           fullWidth

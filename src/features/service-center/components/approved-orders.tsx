@@ -12,16 +12,15 @@ export function ApprovedOrders() {
     isError,
   } = serviceCenterApi.endpoints.getApprovedOrders.useQuery(null);
   if (isLoading || isError) return <div>Loading or Error</div>;
+  console.log(orders);
   return (
     <BoxStyle>
-      <BoxStyle>
-        {orders.map((order: any, index: any) => (
-          <Box key={order.requesterUser.id}>
-            <OrderCard order={order} />
-            {index !== orders.length - 1 && <Divider />}
-          </Box>
-        ))}
-      </BoxStyle>
+      {orders.map((order: any, index: any) => (
+        <Box key={order.requesterUser.id} sx={{ minWidth: '100%' }}>
+          <OrderCard order={order} />
+          {index !== orders.length - 1 && <Divider />}
+        </Box>
+      ))}
     </BoxStyle>
   );
 }

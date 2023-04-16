@@ -22,7 +22,7 @@ export function Orders() {
   };
 
   const [first, setFirst] = useState(true);
-  const [second, setSecond] = useState(false);
+  const [second, setSecond] = useState(!first);
   return (
     <BoxStyle>
       <Box sx={{ display: 'flex', gap: 2 }}>
@@ -30,10 +30,10 @@ export function Orders() {
           first && (
           <>
             <Button onClick={handleFirst} variant="outlined" color="secondary">
-              Не принятые Заявки
+              Заказы на подтвердения
             </Button>
             <Button onClick={handleSecond} color="secondary">
-              Принятые заявки
+              Заказы на выдачу
             </Button>
           </>
           )
@@ -42,10 +42,10 @@ export function Orders() {
           second && (
           <>
             <Button onClick={handleFirst} color="secondary">
-              Не принятые Заявки
+              Заказы на подтвердения
             </Button>
             <Button onClick={handleSecond} variant="outlined" color="secondary">
-              Принятые заявки
+              Заказы на выдачу
             </Button>
           </>
           )
@@ -60,12 +60,11 @@ export function Orders() {
 
   );
 }
-
 const BoxStyle = styled(Box)(({ theme }) => ({
   display: 'flex',
   minHeight: '70vh',
+  minWidth: '100%',
   overflow: 'scroll',
   flexDirection: 'column',
   gap: theme.spacing(3),
-
 }));

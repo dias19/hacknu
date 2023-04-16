@@ -18,7 +18,7 @@ type FormValuesProps = {
     verificationCode: string,
 };
 const ConfirmSchema = Yup.object().shape({
-  verificationCode: Yup.string().required('Жасырын кодты дурыс және толық толтырыңыз'),
+  verificationCode: Yup.string().required('Обязатально вводите код верификации!'),
 });
 
 const defaultValues = {
@@ -52,9 +52,8 @@ export function ConfirmVerificationForm({ verificationId }: Props) {
     }).unwrap();
 
     dispatch(assignToken(res));
-    
     console.log(res);
-
+    
     if (res.user.roles[0] === 'admin') {
       navigate('/admin');
     } else if (res.user.roles[0] === 'operator') {
@@ -70,7 +69,7 @@ export function ConfirmVerificationForm({ verificationId }: Props) {
       <Stack spacing={3}>
         <RHFTextField
           name="verificationCode"
-          label="Жасырын кодты толтырыңыз"
+          label="Введите кодовое слово"
         />
         <LoadingButton
           fullWidth

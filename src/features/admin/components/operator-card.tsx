@@ -9,13 +9,13 @@ type Props ={
 export function OperatorCard({ operator }: Props) {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: 4 }}>
-      <Typography>
+      <Typography variant="h5">
         {operator.firstName}
       </Typography>
-      <Typography>
+      <Typography variant="h5">
         {operator.lastName}
       </Typography>
-      <Typography>
+      <Typography variant="h5">
         {operator.phone}
       </Typography>
     </Box>

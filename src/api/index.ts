@@ -13,7 +13,7 @@ export const baseQuery = fetchBaseQuery({
   baseUrl: 'http://10.101.30.57:3005',
   prepareHeaders: (headers, { getState }) => {
     const {
-      operatorAuthSlice: { token },
+      authSlice: { token },
     } = getState() as AppState;
 
     if (token) {

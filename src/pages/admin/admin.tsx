@@ -4,7 +4,9 @@ import {
   Box, styled, Container, Divider,
 } from '@mui/material';
 
-import { CreateOperator, CreateCarrier, Cards } from '~/features/admin';
+import {
+  CreateOperator, CreateCarrier, Cards, CreateCarrierProvider,
+} from '~/features/admin';
 
 export function AdminPage() {
   return (
@@ -16,8 +18,16 @@ export function AdminPage() {
       <Divider />
       <Container>
         Create Carrier Provider
+        <CreateCarrierProvider />
+      </Container>
+
+      <Divider />
+
+      <Container>
+        Create Carrier
         <CreateCarrier />
       </Container>
+
       <Divider />
       <Container>
         View All operators
