@@ -4,48 +4,51 @@ import storage from 'redux-persist/lib/storage';
 
 import authApi from '~/api/admin-auth/api';
 
-import type { AdminAuthSliceType } from './types';
+import { operatorAuthSliceType } from './types';
 
-const initialState: AdminAuthSliceType = {
+const initialState: operatorAuthSliceType = {
   user: null,
   isLoggedIn: false,
-  verificationCode: '',
+  verificationId: null,
+  token: '',
 };
 
-export const adminAuthSlice = createSlice({
-  name: 'adminAuthSlice',
+export const operatorAuthSlice = createSlice({
+  name: 'operatorAuthSlice',
   initialState,
   reducers: {
     adminLogout(state) {
       state.user = null;
       state.isLoggedIn = false;
-      state.verificationCode = '';
+      state.verificationId = null;
+      state.token = '';
     },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
       authApi.endpoints.sendVerification.matchFulfilled,
       (state, { payload }) => {
-        state.verificationCode = payload.verificationNumber;
+        state.verificationId = payload.verificationId;
       },
     );
     builder.addMatcher(
       authApi.endpoints.confirmVerification.matchFulfilled,
       (state, { payload }) => {
         state.isLoggedIn = true;
-        state.user = { role: payload.role };
+        state.user = payload.user;
+        state.token = payload.token;
       },
     );
   },
 });
 
-export const { adminLogout } = adminAuthSlice.actions;
+export const { adminLogout } = operatorAuthSlice.actions;
 
-export const adminAuthReducer = persistReducer(
+export const operatorAuthReducer = persistReducer(
   {
-    key: 'rtk:adminAuth',
+    key: 'rtk:operatorAuth',
     storage,
-    whitelist: ['admin', 'isLoggedIn'],
+    whitelist: ['isLoggedIn', 'token', 'user'],
   },
-  adminAuthSlice.reducer,
+  operatorAuthSlice.reducer,
 );

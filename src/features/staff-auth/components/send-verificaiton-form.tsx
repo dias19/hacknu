@@ -22,7 +22,7 @@ const defaultValues = {
 };
 
 interface Props {
-  setVerification: (arg: boolean)=>void
+  setVerification: (arg: number)=>void
 }
 export function SendVerificationForm({ setVerification }: Props) {
   const [sendVerification] = adminAuthApi.endpoints.sendVerification.useMutation();
@@ -37,12 +37,14 @@ export function SendVerificationForm({ setVerification }: Props) {
   } = methods;
 
   const onSubmit = async (data: FormValuesProps) => {
-    console.log(data.phoneNumber);
-    setVerification(true);
+    console.log(data);
+
+    const response = await sendVerification({ phoneNumber: data.phoneNumber }).unwrap();
+    setVerification(response.verificationId);
   };
 
   return (
-    <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
+    <FormProvider methods={methods}>
       <Stack spacing={3}>
         <RHFPhoneField
           name="phoneNumber"
@@ -55,6 +57,7 @@ export function SendVerificationForm({ setVerification }: Props) {
           type="submit"
           variant="contained"
           loading={isSubmitting}
+          onClick={handleSubmit(onSubmit)}
         >
           Жасырын код алу
         </LoadingButton>

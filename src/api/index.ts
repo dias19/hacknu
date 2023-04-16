@@ -5,15 +5,15 @@ import {
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react';
 
-import { API_URL } from '~/config';
 import { logout } from '~/features/auth';
 import { AppState } from '~/store';
 
 export const baseQuery = fetchBaseQuery({
-  baseUrl: API_URL,
+
+  baseUrl: 'http://10.101.30.57:3005',
   prepareHeaders: (headers, { getState }) => {
     const {
-      clientSlice: { token },
+      operatorAuthSlice: { token },
     } = getState() as AppState;
 
     if (token) {
