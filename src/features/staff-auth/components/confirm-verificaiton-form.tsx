@@ -9,8 +9,10 @@ import * as Yup from 'yup';
 
 import adminAuthApi from '~/api/admin-auth/api';
 import { FormProvider, RHFTextField } from '~/components/hook-form';
+
 import { assignToken } from '~/features/auth';
 import { useAppDispatch } from '~/store';
+
 
 type FormValuesProps = {
     verificationCode: string,
@@ -32,7 +34,9 @@ export function ConfirmVerificationForm({ verificationId }: Props) {
     resolver: yupResolver(ConfirmSchema),
     defaultValues,
   });
+  
   const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
   const {
     handleSubmit,
@@ -48,6 +52,7 @@ export function ConfirmVerificationForm({ verificationId }: Props) {
     }).unwrap();
 
     dispatch(assignToken(res));
+    
     console.log(res);
 
     if (res.user.roles[0] === 'admin') {
