@@ -11,5 +11,3 @@ export * from './components/service';
 export * from './components/address-form';
 
 export * from './components/orderDelivery';
-
-export * from './clientSlice';

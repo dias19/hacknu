@@ -10,9 +10,8 @@ import orderApi, { ORDER_API_REDUCER_KEY } from '~/api/order/api';
 import serviceCenterApi, { SERVICE_CENTER_API_REDUCER_KEY } from '~/api/service-center/api';
 import { authReducer, authSlice } from '~/features/auth';
 import {
-  serviceSlice, serviceReducer, clientSlice, clientReducer,
+  serviceSlice, serviceReducer,
 } from '~/features/client';
-import { serviceSlice, serviceReducer } from '~/features/client';
 import { operatorAuthReducer, operatorAuthSlice } from '~/features/staff-auth';
 
 import { RESET_STATE_ACTION_TYPE } from './actions/resetState';
@@ -20,7 +19,6 @@ import { rtkQueryErrorLogger } from './middlewares/rtkQueryErrorLogger';
 
 const reducers = {
   [authSlice.name]: authReducer,
-  [clientSlice.name]: clientReducer,
   [CLIENT_API_REDUCER_API]: clientApi.reducer,
   [ORDER_API_REDUCER_KEY]: orderApi.reducer,
   [serviceSlice.name]: serviceReducer,
@@ -45,11 +43,8 @@ export const store = configureStore({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
-<<<<<<< HEAD
-  }).concat([orderApi.middleware, adminAuthApi.middleware, clientApi.middleware,
-=======
   }).concat([orderApi.middleware, adminAuthApi.middleware, serviceCenterApi.middleware,
->>>>>>> ff18b8e (added admin login page, changed the page component)
+    clientApi.middleware,
     rtkQueryErrorLogger,
   ]),
 });
