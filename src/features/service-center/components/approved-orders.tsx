@@ -12,6 +12,7 @@ export function ApprovedOrders() {
     isError,
   } = serviceCenterApi.endpoints.getApprovedOrders.useQuery(null);
   if (isLoading || isError) return <div>Loading or Error</div>;
+  console.log(orders);
   return (
     <BoxStyle>
       {orders.map((order: any, index: any) => (

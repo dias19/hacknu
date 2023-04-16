@@ -39,6 +39,14 @@ const adminAuthApi = createApi({
         body,
       }),
     }),
+    createCarrier: builder.mutation<any, any>({
+      query: (body) => ({
+        url: 'admin/carrier',
+        method: 'POST',
+        body,
+      }),
+    }),
+
     getAllOperators: builder.query<any, any>({
       query: () => 'admin/operators',
     }),

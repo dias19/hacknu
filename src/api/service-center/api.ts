@@ -40,7 +40,6 @@ const serviceCenterApi = createApi({
         body: { operatorCode: credentials.operatorCode },
 
       }),
-      invalidatesTags: ['Approved'],
 
     }),
 

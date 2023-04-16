@@ -18,7 +18,8 @@ export function OrderCard({ order: { requesterUser, trustedUser, userRequest } }
   const [open, setOpen] = React.useState(false);
   const [approveDelivery] = serviceCenterApi.endpoints.approveDelivery.useMutation();
   const handleAccept = async () => {
-    await approveDelivery(userRequest.id).unwrap();
+    const res = await approveDelivery(userRequest.id).unwrap();
+    console.log(res);
   };
 
   const handleDeny = () => {
@@ -37,12 +38,14 @@ export function OrderCard({ order: { requesterUser, trustedUser, userRequest } }
       <Stack spacing={1.5} sx={{ justifyContent: 'center' }}>
         <Typography variant="caption">
           ФИО клиента:
-          {' '}
-
           {requesterUser.firstName}
+          {' '}
           {requesterUser.lastName}
+          {' '}
           {requesterUser.middleName}
+          {' '}
         </Typography>
+
         {
             trustedUser && (
             <Typography variant="caption">
@@ -59,14 +62,21 @@ export function OrderCard({ order: { requesterUser, trustedUser, userRequest } }
         <Typography variant="caption">
           Гос-услуга:
           {' '}
-          {' '}
           {userRequest.request.serviceName}
+          <br />
+          {userRequest.id}
         </Typography>
       </Stack>
 
       <Stack spacing={3} sx={{ justifyContent: 'center', alignItems: 'center' }}>
         {userRequest.status === 'pending' ? (
-          <Box sx={{ displey: 'flex', flexDirection: 'column', justifyContent: 'space-around' }}>
+          <Box sx={{
+            displey: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+          }}
+          >
             <Button color="secondary" onClick={handleAccept}>
               Принять
             </Button>
@@ -76,9 +86,12 @@ export function OrderCard({ order: { requesterUser, trustedUser, userRequest } }
           </Box>
         )
           : (
-            <Button variant="outlined" color="warning" onClick={handleHandout}>
-              Выдать
-            </Button>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Button variant="outlined" color="warning" onClick={handleHandout}>
+                Выдать
+              </Button>
+            </Box>
+
           )}
 
         <DialogForm
@@ -89,7 +102,7 @@ export function OrderCard({ order: { requesterUser, trustedUser, userRequest } }
           hasCloser
         >
           <HandoutOrderForm
-            id={userRequest.requesterUserId}
+            id={userRequest.id}
             buttonTitle="Проверить"
             onCloseForm={handleClose}
           />

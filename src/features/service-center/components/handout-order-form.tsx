@@ -5,30 +5,27 @@ import {
   Box, Stack, styled, Button,
 } from '@mui/material';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import * as yup from 'yup';
 
 import serviceCenterApi from '~/api/service-center/api';
 import { FormProvider, RHFTextField } from '~/components/hook-form';
 
 type OrderFormData = {
-    code: string;
-}
+  code: string;
+};
 
 type Props = {
   buttonTitle: string;
-  onCloseForm: VoidFunction,
-  id: number,
+  onCloseForm: VoidFunction;
+  id: number;
 };
 
-const codeSchema = yup.object().shape(
-  {
-    code: yup.string().required().min(4, 'Код должен составлять 4 цифры').max(4),
-  },
-);
+const codeSchema = yup.object().shape({
+  code: yup.string().required().min(4, 'Код должен составлять 4 цифры').max(4),
+});
 
-export function HandoutOrderForm({
-  buttonTitle, onCloseForm, id,
-}: Props) {
+export function HandoutOrderForm({ buttonTitle, onCloseForm, id }: Props) {
   const defaultValues = {
     code: '',
   };
@@ -46,14 +43,18 @@ export function HandoutOrderForm({
   } = methods;
 
   const onSubmit = async (data: OrderFormData) => {
-    console.log('Form Vydacha code: ', data);
-    await handoutOrder({ id, operatorCode: data.code });
+    try {
+      await handoutOrder({ id, operatorCode: data.code }).unwrap();
+    } catch (error) {
+      // eslint-disable-next-line
+      toast.error("Some error, might be incorrect  verification code");
+    }
+
+    onCloseForm();
   };
 
   return (
-    <FormProviderStyle
-      methods={methods}
-    >
+    <FormProviderStyle methods={methods}>
       <Stack spacing={2}>
         <Box sx={{ flexGrow: 1 }}>
           <Stack spacing={1} sx={{ mt: 2 }}>
@@ -74,9 +75,7 @@ export function HandoutOrderForm({
             {buttonTitle}
           </Button>
         </BoxButtonStyle>
-
       </Stack>
-
     </FormProviderStyle>
   );
 }
