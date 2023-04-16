@@ -2,6 +2,7 @@ import React from 'react';
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
+import { AdminRoutes } from '~/pages/admin';
 import { AuthRoutes } from '~/pages/auth';
 import { ClientRoutes } from '~/pages/client';
 import { MiscRoutes } from '~/pages/misc';
@@ -16,6 +17,7 @@ export function AppRoutes() {
       <Routes>
         {MiscRoutes}
         {AuthRoutes}
+        {AdminRoutes}
         <Route path="/client/*">
           {ClientRoutes}
         </Route>

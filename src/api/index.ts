@@ -4,15 +4,24 @@ import {
   fetchBaseQuery,
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react';
-import queryString from 'query-string';
 
-import { API_URL } from '~/config';
 import { logout } from '~/features/auth';
+import { AppState } from '~/store';
 
 export const baseQuery = fetchBaseQuery({
-  baseUrl: API_URL,
-  credentials: 'include',
-  paramsSerializer: (params) => queryString.stringify(params),
+
+  baseUrl: 'http://10.101.30.57:3005',
+  prepareHeaders: (headers, { getState }) => {
+    const {
+      operatorAuthSlice: { token },
+    } = getState() as AppState;
+
+    if (token) {
+      headers.set('authorization', `Bearer ${token}`);
+    }
+
+    return headers;
+  },
 });
 
 export const baseQueryWithLogout: BaseQueryFn<

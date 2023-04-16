@@ -6,7 +6,7 @@ import {
 
 import { Page } from '~/components/Page';
 import { APPLICATION_NAME } from '~/config';
-import { AdminLogin } from '~/features/admin/';
+import { Login } from '~/features/staff-auth';
 
 const ContentStyle = styled('div')(({ theme }) => ({
   maxWidth: 480,
@@ -51,7 +51,7 @@ export function AdminLoginPage() {
             </Typography>
             <Typography sx={{ color: 'text.secondary' }}>Өз информациянызды толтырыңыз</Typography>
           </Box>
-          <AdminLogin />
+          <Login />
         </ContentStyle>
       </Container>
     </Page>

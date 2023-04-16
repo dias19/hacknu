@@ -7,6 +7,7 @@ import {
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
+import serviceCenterApi from '~/api/service-center/api';
 import { FormProvider, RHFTextField } from '~/components/hook-form';
 
 type OrderFormData = {
@@ -16,6 +17,7 @@ type OrderFormData = {
 type Props = {
   buttonTitle: string;
   onCloseForm: VoidFunction,
+  id: number,
 };
 
 const codeSchema = yup.object().shape(
@@ -24,12 +26,13 @@ const codeSchema = yup.object().shape(
   },
 );
 
-export function OrderConfirmForm({
-  buttonTitle, onCloseForm,
+export function HandoutOrderForm({
+  buttonTitle, onCloseForm, id,
 }: Props) {
   const defaultValues = {
     code: '',
   };
+  const [handoutOrder] = serviceCenterApi.endpoints.handoutOrder.useMutation();
 
   const methods = useForm<OrderFormData>({
     resolver: yupResolver(codeSchema),
@@ -42,9 +45,11 @@ export function OrderConfirmForm({
     handleSubmit,
   } = methods;
 
-  const onSubmit = (data: OrderFormData) => {
-    console.log(data);
+  const onSubmit = async (data: OrderFormData) => {
+    console.log('Form Vydacha code: ', data);
+    await handoutOrder({ id, operatorCode: data.code });
   };
+
   return (
     <FormProviderStyle
       methods={methods}
