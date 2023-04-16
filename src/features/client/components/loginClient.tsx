@@ -5,19 +5,30 @@ import {
   Box,
   Button, Checkbox, Container, TextField, Typography,
 } from '@mui/material';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+import clientApi from '~/api/client/api';
 
 export function LoginClient() {
   const [IIN, setIIN] = useState('');
 
   const [dogovor, setDogovor] = useState(false);
 
+  const [postIINforData] = clientApi.endpoints.postIINforData.useMutation();
   const [dataObrabotka, setDataObrabotka] = useState(false);
+
+  const navigate = useNavigate();
 
   const { requestId } = useParams();
 
   async function handleClick() {
-    console.log('l');
+    try {
+      const { user } = await postIINforData({ iin: IIN }).unwrap();
+      navigate(`/client/services/${requestId}`, { state: { user } });
+    } catch (e) {
+      toast.error('Упс вышла ошибочка');
+    }
   }
 
   return (

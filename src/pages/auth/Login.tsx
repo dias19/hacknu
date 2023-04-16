@@ -6,19 +6,17 @@ import {
 
 import { Page } from '~/components/Page';
 import { APPLICATION_NAME } from '~/config';
-
 import { HomeClient } from '~/features/client';
-
 import { Login } from '~/features/staff-auth';
 
 const ContentStyle = styled('div')(({ theme }) => ({
   maxWidth: 480,
   margin: 'auto',
-  minHeight: '100vh',
+  minHeight: '100%',
   display: 'flex',
   justifyContent: 'center',
   flexDirection: 'column',
-  padding: theme.spacing(12, 0),
+  padding: theme.spacing(8, 0),
 }));
 
 export function LoginPage() {
@@ -32,7 +30,7 @@ export function LoginPage() {
               {' '}
               {APPLICATION_NAME}
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Введите данные</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Заполните данные о вас</Typography>
             <HomeClient />
           </Box>
         </ContentStyle>
@@ -52,7 +50,11 @@ export function AdminLoginPage() {
               {' '}
               {APPLICATION_NAME}
             </Typography>
+<<<<<<< HEAD
             <Typography sx={{ color: 'text.secondary' }}>Введите данные</Typography>
+=======
+            <Typography sx={{ color: 'text.secondary' }}>Заполните данные о вас</Typography>
+>>>>>>> 632e722 (finalized the client pages)
           </Box>
           <Login />
         </ContentStyle>

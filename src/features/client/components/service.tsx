@@ -5,10 +5,18 @@ import {
 } from '@mui/material';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
+import orderApi from '~/api/order/api';
+
 export function Service() {
   const location = useLocation() as any;
 
-  const { requestId } = useParams();
+  const { id } = useParams();
+
+  console.log(id);
+
+  const { data = [] } = orderApi.endpoints.getOrders.useQuery();
+
+  console.log(data);
 
   const { service, user } = location.state;
 
@@ -34,17 +42,17 @@ export function Service() {
             <Typography variant="h5">
               Заказ
               {' '}
-              {service.id}
+              {service?.id || data[0]?.requestCode}
             </Typography>
             <Typography>
               Наименование:
               {' '}
-              {service.name}
+              {service?.name || data[0]?.serviceName}
             </Typography>
             <Typography>
               Отделение:
               {' '}
-              {service.organizationName}
+              {service?.organizationName || data[0]?.organizationName}
             </Typography>
             <Typography variant="h5">Данные получателя</Typography>
             <Typography>
@@ -75,7 +83,7 @@ export function Service() {
                 padding: 1,
               }}
               onClick={() => navigate(
-                `/client/services/${requestId}/address`,
+                `/client/services/${id}/address`,
                 { state: { service, user } },
               )}
             >

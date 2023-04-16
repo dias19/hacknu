@@ -9,7 +9,6 @@ import clientApi, { CLIENT_API_REDUCER_API } from '~/api/client/api';
 import orderApi, { ORDER_API_REDUCER_KEY } from '~/api/order/api';
 import serviceCenterApi, { SERVICE_CENTER_API_REDUCER_KEY } from '~/api/service-center/api';
 import { authReducer, authSlice } from '~/features/auth';
-
 import {
   serviceSlice, serviceReducer,
 } from '~/features/client';

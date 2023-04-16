@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   Box, Button, Card, CardContent, Container, Typography,
@@ -6,9 +6,12 @@ import {
 import { useLocation } from 'react-router-dom';
 
 import orderApi from '~/api/order/api';
+import { useResponsive } from '~/hooks/useResponsive';
 
 export function OrderDelivery() {
   const location = useLocation() as any;
+
+  const isDesktop = useResponsive('up', 'sm');
 
   const {
     userLocation, service, user, orderForMyself, dataForm, iin,
@@ -25,6 +28,11 @@ export function OrderDelivery() {
   const { data: trustedPersonPhone } = orderApi.endpoints.getClientPhone.useQuery(iin, {
     skip: orderForMyself,
   });
+
+  const govCoordinates = {
+    latitude: 51.1157,
+    longitude: 71.4136,
+  };
 
   const [requestOrderDelivery] = orderApi.endpoints.requestOrderDelivery.useMutation();
 
@@ -54,8 +62,8 @@ export function OrderDelivery() {
   const d = getDistanceFromLatLonInKm(
     Number(userLocation.latitude),
     Number(userLocation.longitude),
-    51.17531,
-    71.39698,
+    govCoordinates.latitude,
+    govCoordinates.longitude,
   );
 
   async function handleSubmit(carrierProviderId: any) {
@@ -83,9 +91,11 @@ export function OrderDelivery() {
       console.log(e);
     }
   }
+  const [open, setOpen] = useState(false);
+
   return (
     <Container>
-      <Box sx={{ mt: 10 }}>
+      <Box sx={{ mt: isDesktop ? 7 : 5 }}>
         <Typography variant="h5" textAlign="center">
           Оформление доставки
         </Typography>
@@ -132,6 +142,17 @@ export function OrderDelivery() {
               {userLocation.dataForm.city}
               {`, ${userLocation.dataForm.region}.`}
             </Typography>
+            <Button
+              color="success"
+              variant="contained"
+              sx={{
+                color: 'white',
+                mt: 2,
+              }}
+              onClick={() => setOpen(true)}
+            >
+              Посмотреть на карте
+            </Button>
           </CardContent>
         </Card>
       </Box>
@@ -146,7 +167,7 @@ export function OrderDelivery() {
           Стоимость доставки
         </Typography>
         {data.map((provider: any) => (
-          <Card sx={{ padding: 3 }}>
+          <Card sx={{ padding: 3, mb: 1, mt: 1 }}>
             <Typography variant="h6">{provider.name}</Typography>
             <Typography>
               Расстояние между двумя точками:
@@ -170,6 +191,15 @@ export function OrderDelivery() {
             </Button>
           </Card>
         ))}
+        {/* <DialogForm
+          open={open}
+          onClose={() => setOpen(false)}
+          onOpen={() => setOpen(true)}
+          title="Расстояние между точками"
+          hasCloser
+        >
+          <Map />
+        </DialogForm> */}
       </Box>
     </Container>
   );

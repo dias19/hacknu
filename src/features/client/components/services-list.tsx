@@ -129,7 +129,7 @@ export function ServicesList() {
                 <Card elevation={10} sx={{ mt: 2 }}>
                   <CardActionArea
                     onClick={() => navigate(
-                      `/client/services/:${service.id}`,
+                      `/client/services/${service.id}`,
                       { state: { service, ...response } },
                     )}
                   >

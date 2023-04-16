@@ -9,7 +9,7 @@ const clientApi = createApi({
   reducerPath: CLIENT_API_REDUCER_API,
   baseQuery: baseQueryWithLogout,
   endpoints: (builder) => ({
-    getVerificationCode: builder.mutation<any, PostVerification >({
+    getVerificationCode: builder.mutation<any, PostVerification>({
       query: (body) => ({
         url: '/auth/client/verification/send',
         method: 'POST',
@@ -19,6 +19,13 @@ const clientApi = createApi({
     sendVerificationCode: builder.mutation<any, PostConfirmation>({
       query: (body) => ({
         url: '/auth/client/verification/confirm',
+        method: 'POST',
+        body,
+      }),
+    }),
+    postIINforData: builder.mutation<any, {iin: string}>({
+      query: (body) => ({
+        url: 'auth/link/verification/',
         method: 'POST',
         body,
       }),

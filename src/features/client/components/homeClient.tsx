@@ -45,6 +45,7 @@ export function HomeClient() {
         verificationCode: smsCode,
         verificationId: verificationID,
       }).unwrap();
+
       if (dogovor && dataObrabotka) {
         navigate('/client/services', { state: { response } });
       } else {
@@ -85,7 +86,7 @@ export function HomeClient() {
               }}
               onClick={handleSubmitIIN}
             >
-              Кіру
+              Войти
             </Button>
             <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               <Box sx={{
@@ -130,9 +131,7 @@ export function HomeClient() {
               value={smsCode}
               onChange={(e) => setSmsCode(e.target.value)}
               variant="outlined"
-              sx={{
-                width: 600,
-              }}
+              fullWidth
             />
             <Button
               variant="contained"
@@ -140,11 +139,11 @@ export function HomeClient() {
               sx={{
                 color: 'white',
                 mt: 2,
-                width: 600,
+                paddingX: 10,
               }}
               onClick={handleSubmitCode}
             >
-              Кіру
+              Войти
             </Button>
           </>
         )
