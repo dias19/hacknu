@@ -5,16 +5,21 @@ import {
 } from 'redux-persist';
 
 import adminAuthApi, { ADMIN_AUTH_API_REDUCER_KEY } from '~/api/admin-auth/api';
+import clientApi, { CLIENT_API_REDUCER_API } from '~/api/client/api';
 import orderApi, { ORDER_API_REDUCER_KEY } from '~/api/order/api';
 import { adminAuthReducer, adminAuthSlice } from '~/features/admin';
 import { authReducer, authSlice } from '~/features/auth';
-import { serviceSlice, serviceReducer } from '~/features/client';
+import {
+  serviceSlice, serviceReducer, clientSlice, clientReducer,
+} from '~/features/client';
 
 import { RESET_STATE_ACTION_TYPE } from './actions/resetState';
 import { rtkQueryErrorLogger } from './middlewares/rtkQueryErrorLogger';
 
 const reducers = {
   [authSlice.name]: authReducer,
+  [clientSlice.name]: clientReducer,
+  [CLIENT_API_REDUCER_API]: clientApi.reducer,
   [ORDER_API_REDUCER_KEY]: orderApi.reducer,
   [serviceSlice.name]: serviceReducer,
   [adminAuthSlice.name]: adminAuthReducer,
@@ -37,7 +42,7 @@ export const store = configureStore({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
-  }).concat([orderApi.middleware, adminAuthApi.middleware,
+  }).concat([orderApi.middleware, adminAuthApi.middleware, clientApi.middleware,
     rtkQueryErrorLogger,
   ]),
 });

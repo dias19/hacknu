@@ -1,10 +1,19 @@
 import React from 'react';
 
 import {
-  CardContent, Typography, Card, IconButton, Container, Box, Tab, Tabs, CardActionArea,
+  CardContent,
+  Typography,
+  Card,
+  IconButton,
+  Container,
+  Box,
+  Tab,
+  Tabs,
+  CardActionArea,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
+import orderApi from '~/api/order/api';
 import { Iconify } from '~/components/Iconify';
 import { useAppDispatch, useAppSelector } from '~/store';
 
@@ -17,39 +26,66 @@ export function ServicesList() {
     setValue(newValue);
   };
 
+  const location = useLocation() as any;
+
+  const { data = [] } = orderApi.endpoints.getOrders.useQuery();
+
+  const { response } = location.state;
+
   const navigate = useNavigate();
 
+  const dispatch = useAppDispatch();
   const selectedServices = useAppSelector((state) => state.service.services);
 
-  const dispatch = useAppDispatch();
-
-  const handleAddService = (e: React.SyntheticEvent) => {
-    const newService = {
-      id: 1,
-      name: 'Сотталғандығы болуы не болмауы туралы анықтама беру',
-    };
-
-    dispatch(addService(newService));
+  const handleAdd = (e: React.SyntheticEvent, order: any) => {
+    dispatch(addService({
+      id: order.requestCode,
+      name: order.serviceName,
+      organizationName: order.organizationName,
+    }));
     handleChange(e, 1);
   };
 
-  const handleRemoveService = () => {
-    dispatch(removeService(1));
+  const handleDelete = (e:React.SyntheticEvent, order: any) => {
+    e.stopPropagation();
+    dispatch(removeService(order.id));
   };
 
   return (
     <Container>
-      <Typography sx={{
-        fontSize: 24,
-        mt: 3,
-        mb: 2,
-      }}
+      <Typography
+        sx={{
+          fontSize: 24,
+          mt: 10,
+          mb: 5,
+        }}
       >
-        Саламатсызба ИмяФамилия
+        Здравствуйте
+        {' '}
+        {response.user.firstName}
+        {' '}
+        {response.user.middleName}
+        {' '}
+        {response.user.lastName}
+        !
       </Typography>
-      <Box sx={{
-        flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 150,
-      }}
+      <Typography
+        variant="h6"
+        align="center"
+        sx={{
+          mb: 3,
+        }}
+      >
+        Доступные сервисы
+      </Typography>
+      <Box
+        sx={{
+          mt: 3,
+          flexGrow: 1,
+          bgcolor: 'background.paper',
+          display: 'flex',
+          height: 150,
+        }}
       >
         <Tabs
           value={value}
@@ -58,70 +94,69 @@ export function ServicesList() {
           orientation="vertical"
           indicatorColor="secondary"
         >
-          <Tab label="Сервистер" sx={{ width: 200 }} />
-          <Tab label="Менің сервистерім" sx={{ width: 200 }} />
+          <Tab label="Сервисы" sx={{ width: 200 }} />
+          <Tab label="Мои заявки" sx={{ width: 200 }} />
         </Tabs>
         <TabPanel value={value} index={0}>
-          <Typography sx={{ fontSize: 18 }}>
-            Барлық сервистер
-          </Typography>
-          <Card elevation={10} sx={{ mt: 2 }}>
-            <CardContent sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: 2,
-            }}
-            >
-              <Typography>
-                Сотталғандығы болуы не болмауы туралы анықтама беру
-              </Typography>
-              <IconButton
-                sx={{ height: 40, width: 40 }}
-                color="success"
-                onClick={(e) => handleAddService(e)}
+          {data.map((order: any) => (
+            <Card elevation={10}>
+              <CardContent
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: 2,
+                }}
               >
-                <Iconify icon="material-symbols:add" width={40} height={40} />
-              </IconButton>
-            </CardContent>
-          </Card>
+                <Typography>{order.serviceName}</Typography>
+                <IconButton sx={{ height: 40, width: 40 }} color="success">
+                  <Iconify
+                    icon="material-symbols:add"
+                    width={40}
+                    height={40}
+                    onClick={(e) => handleAdd(e, order)}
+                  />
+                </IconButton>
+              </CardContent>
+            </Card>
+          ))}
         </TabPanel>
         <TabPanel value={value} index={1}>
-          {selectedServices.length > 0
-          && (
+          {selectedServices.length > 0 && (
             <>
-              <Typography sx={{ fontSize: 18 }}>
-                Таңдалған сервистер
-              </Typography>
-              <Card elevation={10} sx={{ mt: 2 }}>
-                <CardActionArea onClick={() => navigate('/client/services/:1')}>
-                  <CardContent sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: 2,
-                  }}
+              <Typography sx={{ fontSize: 18, fontWeight: 'bold' }}>Выбранные услуги</Typography>
+              {selectedServices.map((service) => (
+                <Card elevation={10} sx={{ mt: 2 }}>
+                  <CardActionArea
+                    onClick={() => navigate(
+                      `/client/services/:${service.id}`,
+                      { state: { service, ...response } },
+                    )}
                   >
-                    <Typography>
-                      Сотталғандығы болуы не болмауы туралы анықтама беру
-                    </Typography>
-                    <IconButton
-                      sx={{ height: 40, width: 40 }}
-                      color="error"
-                      onClick={handleRemoveService}
+                    <CardContent
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: 2,
+                      }}
                     >
-                      <Iconify icon="ic:sharp-clear" width={40} height={40} />
-                    </IconButton>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
+                      <Typography>{service.name}</Typography>
+                      <IconButton
+                        sx={{ height: 40, width: 40 }}
+                        color="error"
+                        onClick={(e) => handleDelete(e, service)}
+                      >
+                        <Iconify icon="ic:sharp-clear" width={40} height={40} />
+                      </IconButton>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              ))}
             </>
           )}
-          {selectedServices.length === 0
-          && (
-            <Typography sx={{ fontSize: 18 }}>
-              Сервистер таңдалмаған
-            </Typography>
+          {selectedServices.length === 0 && (
+            <Typography sx={{ fontSize: 18 }}>Сервисы не выбраны</Typography>
           )}
         </TabPanel>
       </Box>
