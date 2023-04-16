@@ -10,18 +10,16 @@ import { FormProvider, RHFTextField } from '~/components/hook-form';
 import { RHFPhoneField } from '~/components/hook-form/rhf-phone-field';
 
 type OrderFormData = {
-    firstName: string,
-    lastName: string,
-    phone: string
-  }
+  firstName: string;
+  lastName: string;
+  phone: string;
+};
 
-const codeSchema = yup.object().shape(
-  {
-    firstName: yup.string().required(),
-    lastName: yup.string().required(),
-    phone: yup.string().required(),
-  },
-);
+const codeSchema = yup.object().shape({
+  firstName: yup.string().required(),
+  lastName: yup.string().required(),
+  phone: yup.string().required(),
+});
 
 export function CreateOperator() {
   const defaultValues = {
@@ -36,32 +34,19 @@ export function CreateOperator() {
     mode: 'onChange',
   });
 
-  const {
-    handleSubmit,
-  } = methods;
+  const { handleSubmit } = methods;
   const [createOperator] = adminAuthApi.endpoints.createOperator.useMutation();
   const onSubmit = async (data: OrderFormData) => {
-    const res = await createOperator(data);
-    console.log(res);
+    await createOperator(data);
   };
 
   return (
-    <FormProviderStyle
-      methods={methods}
-    >
+    <FormProviderStyle methods={methods}>
       <Stack spacing={2}>
         <RHFTextField name="firstName" label="Имя" color="success" />
         <RHFTextField name="lastName" label="Фамилия" color="success" />
-        <RHFPhoneField
-          name="phone"
-          label="Ұйалы телефон нөмір"
-        />
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={handleSubmit(onSubmit)}
-          size="large"
-        >
+        <RHFPhoneField name="phone" label="Сотовый номер телефона" />
+        <Button variant="contained" color="secondary" onClick={handleSubmit(onSubmit)} size="large">
           Зарегестрировать Оператора
         </Button>
       </Stack>

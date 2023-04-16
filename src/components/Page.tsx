@@ -8,8 +8,10 @@ import { useNavigate } from 'react-router-dom';
 
 import { Logo } from '~/assets/logo';
 import { APPLICATION_NAME } from '~/config';
-import { adminLogout } from '~/features/staff-auth';
+import { useAuth } from '~/hooks/useAuth';
 import { useAppDispatch, useAppSelector } from '~/store';
+
+import { logout } from '../features/auth/authSlice';
 
 type Props = {
   children: React.ReactNode;
@@ -19,14 +21,19 @@ type Props = {
 
 export function Page({ children, meta, title }: Props) {
   const navigate = useNavigate();
+
   const dispatch = useAppDispatch();
+
+  const { token, isLoggedIn } = useAuth();
+
   const authAdmin = useAppSelector((state) => state.operatorAuthSlice);
   const handleClick = () => {
     navigate('/login');
   };
 
   const handleLogout = () => {
-    dispatch(adminLogout());
+    dispatch(logout());
+    navigate('/login');
   };
   return (
     <>
@@ -53,9 +60,8 @@ export function Page({ children, meta, title }: Props) {
             </Typography>
           </Box>
           <Logo />
-
-          <Button color="success" onClick={handleClick}>Login</Button>
-          {authAdmin.token && <Button color="error" onClick={handleLogout}>Logout</Button>}
+          {isLoggedIn ? <Button color="error" onClick={handleLogout}>Logout</Button>
+            : <Button color="success" onClick={handleClick}>Login</Button>}
         </BoxStyle>
         <Divider />
         {children}

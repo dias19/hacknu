@@ -60,12 +60,11 @@ export function Orders() {
 
   );
 }
-
 const BoxStyle = styled(Box)(({ theme }) => ({
   display: 'flex',
   minHeight: '70vh',
+  minWidth: '100%',
   overflow: 'scroll',
   flexDirection: 'column',
   gap: theme.spacing(3),
-
 }));

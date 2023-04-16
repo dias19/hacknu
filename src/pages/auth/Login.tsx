@@ -26,11 +26,11 @@ export function LoginPage() {
         <ContentStyle>
           <Box sx={{ mb: 5 }}>
             <Typography variant="h4" gutterBottom>
-              Кіру
+              Войти
               {' '}
               {APPLICATION_NAME}
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Өз информациянызды толтырыңыз</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Введите данные</Typography>
             <HomeClient />
           </Box>
         </ContentStyle>
@@ -46,11 +46,11 @@ export function AdminLoginPage() {
         <ContentStyle>
           <Box sx={{ mb: 5 }}>
             <Typography variant="h4" gutterBottom>
-              Кіру
+              Войти
               {' '}
               {APPLICATION_NAME}
             </Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Өз информациянызды толтырыңыз</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Введите данные</Typography>
           </Box>
           <Login />
         </ContentStyle>
