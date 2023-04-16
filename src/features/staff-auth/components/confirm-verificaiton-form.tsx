@@ -50,12 +50,8 @@ export function ConfirmVerificationForm({ verificationId }: Props) {
     }).unwrap();
 
     dispatch(assignToken(res));
-<<<<<<< HEAD
-=======
-
->>>>>>> 2797208 (Fix)
     console.log(res);
-    
+
     if (res.user.roles[0] === 'admin') {
       navigate('/admin');
     } else if (res.user.roles[0] === 'operator') {
