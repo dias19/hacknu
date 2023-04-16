@@ -5,10 +5,14 @@ import {
 } from 'redux-persist';
 
 import adminAuthApi, { ADMIN_AUTH_API_REDUCER_KEY } from '~/api/admin-auth/api';
+import clientApi, { CLIENT_API_REDUCER_API } from '~/api/client/api';
 import orderApi, { ORDER_API_REDUCER_KEY } from '~/api/order/api';
 import serviceCenterApi, { SERVICE_CENTER_API_REDUCER_KEY } from '~/api/service-center/api';
 import { authReducer, authSlice } from '~/features/auth';
-import { serviceSlice, serviceReducer } from '~/features/client';
+
+import {
+  serviceSlice, serviceReducer,
+} from '~/features/client';
 import { operatorAuthReducer, operatorAuthSlice } from '~/features/staff-auth';
 
 import { RESET_STATE_ACTION_TYPE } from './actions/resetState';
@@ -16,6 +20,7 @@ import { rtkQueryErrorLogger } from './middlewares/rtkQueryErrorLogger';
 
 const reducers = {
   [authSlice.name]: authReducer,
+  [CLIENT_API_REDUCER_API]: clientApi.reducer,
   [ORDER_API_REDUCER_KEY]: orderApi.reducer,
   [serviceSlice.name]: serviceReducer,
   [operatorAuthSlice.name]: operatorAuthReducer,
@@ -40,6 +45,7 @@ export const store = configureStore({
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
   }).concat([orderApi.middleware, adminAuthApi.middleware, serviceCenterApi.middleware,
+    clientApi.middleware,
     rtkQueryErrorLogger,
   ]),
 });

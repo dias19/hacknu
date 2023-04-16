@@ -1,19 +1,37 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import queryString from 'query-string';
+import { createApi } from '@reduxjs/toolkit/query/react';
+
+import { baseQuery } from '..';
 
 export const ORDER_API_REDUCER_KEY = 'orderApi';
 
 const orderApi = createApi({
   reducerPath: ORDER_API_REDUCER_KEY,
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'http://89.218.80.61/vshep-api/con-sync-service',
-    credentials: 'include',
-    paramsSerializer: (params) => queryString.stringify(params),
-  }),
-
+  baseQuery,
   endpoints: (builder) => ({
-    getOrderDetails: builder.query<any, any>({
-      query: (options) => `/?${new URLSearchParams(options.queryParams)}`,
+    getOrders: builder.query<any, void>({
+      query: () => '/request/order-services',
+    }),
+    getProviders: builder.query<any, void>({
+      query: () => '/providers',
+    }),
+    getRequestUserId: builder.mutation<any, void>({
+      query: () => ({
+        url: 'request/order-services/1',
+        method: 'POST',
+      }),
+    }),
+    getClientByIIN: builder.query<any, number>({
+      query: (iin) => `/egov-api/fl/${iin}`,
+    }),
+    getClientPhone: builder.query<any, number>({
+      query: (iin) => `/egov-api/phone/${iin}`,
+    }),
+    requestOrderDelivery: builder.mutation<any, any>({
+      query: (body) => ({
+        url: 'request/order-delivery',
+        method: 'POST',
+        body,
+      }),
     }),
   }),
 });

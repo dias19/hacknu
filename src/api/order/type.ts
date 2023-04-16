@@ -1,3 +1,3 @@
-export type Ansar ={
-    name: string;
+export interface OrderByIIN{
+    iin: number;
 }

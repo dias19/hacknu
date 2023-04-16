@@ -8,7 +8,6 @@ import { HEADER } from '~/constants';
 import { useResponsive } from '~/hooks/useResponsive';
 
 import { DashboardHeader } from './header';
-import { DashboardSidebar } from './sidebar';
 
 const MainStyle = styled('main', {
   shouldForwardProp: (prop) => prop !== 'collapseClick',
@@ -49,7 +48,6 @@ export function DashboardLayout({ children }: Props) {
       }}
     >
       <DashboardHeader onOpenSidebar={onOpenSidebar} />
-      {!isLaptop && <DashboardSidebar open={open} onCloseSidebar={onCloseSidebar} />}
       <MainStyle>{children || <Outlet />}</MainStyle>
     </Box>
   );
