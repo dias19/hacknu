@@ -1,15 +1,24 @@
 export interface SendRequest {
-  phoneNumber: string,
+  phoneNumber: string;
 }
 
 export interface SendResponse {
-  verificationNumber: string;
+  verificationId: number;
 }
 
-export interface ConfirmRequest extends SendResponse{
-
+export interface ConfirmRequest {
+  verificationCode: string;
+  verificationId: number;
 }
 
 export interface ConfirmResponse {
-  role: string;
+  token: string;
+  user: {
+    firstName: null;
+    iin: null;
+    lastName: null;
+    middleName: null;
+    phone: string;
+    roles: string[];
+  };
 }

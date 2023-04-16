@@ -4,70 +4,98 @@ import {
   Box, styled, Stack, Typography, Button,
 } from '@mui/material';
 
+import serviceCenterApi from '~/api/service-center/api';
 import { DialogForm } from '~/components/Dialog';
 
-import { OrderConfirmForm } from './order-confirm-form';
+import { OperatorRequest } from '../types';
+import { HandoutOrderForm } from './handout-order-form';
 
-export function OrderCard() {
+type Props = {
+    order: OperatorRequest
+}
+
+export function OrderCard({ order: { requesterUser, trustedUser, userRequest } }: Props) {
   const [open, setOpen] = React.useState(false);
-
+  const [approveDelivery] = serviceCenterApi.endpoints.approveDelivery.useMutation();
+  const [handoutOrder] = serviceCenterApi.endpoints.handoutOrder.useMutation();
   const handleAccept = async () => {
+    await approveDelivery(userRequest.id).unwrap();
+  };
+
+  const handleDeny = () => {
+    // deny the order
+  };
+  const handleHandout = () => {
     setOpen(true);
-    // make the request to the server and accept it, wait for the courier code
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleDeny = () => {
-    // deny the order
-  };
-
   return (
     <BoxStyle>
       <Stack spacing={1.5}>
         <Typography variant="caption">
-          Доставщик: Yandex Delivery
-        </Typography>
-        <Typography variant="caption">
+          ФИО клиента:
+          {' '}
 
-          Курьер: Balenbay Balenbayev
+          {requesterUser.firstName}
+          {requesterUser.lastName}
+          {requesterUser.middleName}
         </Typography>
+        {
+            trustedUser && (
+            <Typography variant="caption">
+              ФИО клиента:
+              {' '}
+              {trustedUser.firstName}
+              {' '}
+              {trustedUser.lastName}
+              {' '}
+              {trustedUser.middleName}
+            </Typography>
+            )
+        }
         <Typography variant="caption">
-
-          Дата: 11-02-2023
-        </Typography>
-      </Stack>
-      <Stack spacing={1.5}>
-        <Typography variant="caption">
-          Доверенное лицо: Leo Messi
-        </Typography>
-        <Typography variant="caption">
-          ГосУслуга: спрака с места жительство
+          Гос-услуга:
+          {' '}
+          {' '}
+          {userRequest.request.serviceName}
         </Typography>
       </Stack>
 
       <Stack spacing={3}>
-        <Button variant="outlined" color="secondary" onClick={handleAccept}>
-          Принять
-        </Button>
-        <Button variant="outlined" color="error" onClick={handleDeny}>
-          Отказать
-        </Button>
+        {userRequest.status === 'pending' ? (
+          <>
+            <Button variant="outlined" color="secondary" onClick={handleAccept}>
+              Принять
+            </Button>
+            <Button variant="outlined" color="error" onClick={handleDeny}>
+              Отказать
+            </Button>
+          </>
+        )
+          : (
+            <Button variant="outlined" color="warning" onClick={handleHandout}>
+              Выдать
+            </Button>
+          )}
+
+        <DialogForm
+          open={open}
+          onClose={handleClose}
+          onOpen={handleHandout}
+          title="Проверка номера"
+          hasCloser
+        >
+          <HandoutOrderForm
+            id={userRequest.requesterUserId}
+            buttonTitle="Проверить"
+            onCloseForm={handleClose}
+          />
+        </DialogForm>
       </Stack>
-      <DialogForm
-        open={open}
-        onClose={handleClose}
-        onOpen={handleAccept}
-        title="Проверка номера"
-        hasCloser
-      >
-        <OrderConfirmForm
-          buttonTitle="Проверить"
-          onCloseForm={handleClose}
-        />
-      </DialogForm>
     </BoxStyle>
   );
 }

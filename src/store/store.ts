@@ -6,9 +6,10 @@ import {
 
 import adminAuthApi, { ADMIN_AUTH_API_REDUCER_KEY } from '~/api/admin-auth/api';
 import orderApi, { ORDER_API_REDUCER_KEY } from '~/api/order/api';
-import { adminAuthReducer, adminAuthSlice } from '~/features/admin';
+import serviceCenterApi, { SERVICE_CENTER_API_REDUCER_KEY } from '~/api/service-center/api';
 import { authReducer, authSlice } from '~/features/auth';
 import { serviceSlice, serviceReducer } from '~/features/client';
+import { operatorAuthReducer, operatorAuthSlice } from '~/features/staff-auth';
 
 import { RESET_STATE_ACTION_TYPE } from './actions/resetState';
 import { rtkQueryErrorLogger } from './middlewares/rtkQueryErrorLogger';
@@ -17,8 +18,9 @@ const reducers = {
   [authSlice.name]: authReducer,
   [ORDER_API_REDUCER_KEY]: orderApi.reducer,
   [serviceSlice.name]: serviceReducer,
-  [adminAuthSlice.name]: adminAuthReducer,
+  [operatorAuthSlice.name]: operatorAuthReducer,
   [ADMIN_AUTH_API_REDUCER_KEY]: adminAuthApi.reducer,
+  [SERVICE_CENTER_API_REDUCER_KEY]: serviceCenterApi.reducer,
 };
 
 const combinedReducer = combineReducers<typeof reducers>(reducers);
@@ -37,7 +39,7 @@ export const store = configureStore({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
-  }).concat([orderApi.middleware, adminAuthApi.middleware,
+  }).concat([orderApi.middleware, adminAuthApi.middleware, serviceCenterApi.middleware,
     rtkQueryErrorLogger,
   ]),
 });

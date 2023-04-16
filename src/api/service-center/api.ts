@@ -1,28 +1,41 @@
-// import { createApi } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
-// import { baseQuery } from '..';
-// import {
+import { baseQuery } from '..';
 
-// } from './types';
+export const SERVICE_CENTER_API_REDUCER_KEY = 'serviceCenterApi';
 
-// export const SERVICE_CENTER_REDUCER_API = 'serviceCenterApi';
+const serviceCenterApi = createApi({
+  reducerPath: SERVICE_CENTER_API_REDUCER_KEY,
+  baseQuery,
+  endpoints: (builder) => ({
+    getPendingOrders: builder.query<any, any>({
+      query: () => ({
+        url: '/request/order/operator',
+        method: 'GET',
 
-// const serviceCenterApi = createApi({
-//   reducerPath: SERVICE_CENTER_REDUCER_API,
-//   baseQuery,
-//   endpoints: (builder) => ({
-//     getOrders: builder.mutation<, >({
-//       query: (credentials) => ({
-//         url: '/signin/',
-//         method: 'POST',
-//         body: credentials,
-//       }),
-//     }),
-//   }),
-// });
+      }),
+    }),
+    getApprovedOrders: builder.query<any, any>({
+      query: () => ({
+        url: '/request/order/operator?status=in_progress',
+        method: 'GET',
+      }),
+    }),
+    approveDelivery: builder.mutation<any, any>({
+      query: (credentials) => ({
+        url: `/request/approve-delivery/${credentials}`,
+        method: 'POST',
+      }),
+    }),
+    handoutOrder: builder.mutation<any, any>({
+      query: (credentials) => ({
+        url: `/request/hand-docs/${credentials.id}/carrier`,
+        method: 'POST',
+        body: { operatorCode: credentials.operatorCode },
+      }),
+    }),
 
-// export default serviceCenterApi;
+  }),
+});
 
-export interface ANsar {
-    name: string
-}
+export default serviceCenterApi;

@@ -27,14 +27,14 @@ export const authSlice = createSlice({
     builder.addMatcher(
       authApi.endpoints.sendVerification.matchFulfilled,
       (state, { payload }) => {
-        state.verificationCode = payload.verificationNumber;
+        state.verificationCode = payload.verificationId.toString();
       },
     );
     builder.addMatcher(
       authApi.endpoints.confirmVerification.matchFulfilled,
       (state, { payload }) => {
         state.isLoggedIn = true;
-        state.role = payload.role;
+        state.role = `${payload.user.lastName}1`;
       },
     );
   },
