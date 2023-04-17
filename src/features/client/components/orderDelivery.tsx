@@ -4,6 +4,7 @@ import {
   Box, Button, Card, CardContent, Container, Typography,
 } from '@mui/material';
 import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import orderApi from '~/api/order/api';
 import { useResponsive } from '~/hooks/useResponsive';
@@ -14,10 +15,11 @@ export function OrderDelivery() {
   const isDesktop = useResponsive('up', 'sm');
 
   const {
-    userLocation, service, user, orderForMyself, dataForm, iin,
+    userLocation, service, user, orderForMyself, dataForm, iin, data,
   } = location.state;
 
-  const { data = [] } = orderApi.endpoints.getProviders.useQuery();
+  console.log(data);
+  const { data: providers = [] } = orderApi.endpoints.getProviders.useQuery();
 
   const [getRequestUserId, { data: userID }] = orderApi.endpoints.getRequestUserId.useMutation();
 
@@ -87,6 +89,7 @@ export function OrderDelivery() {
     try {
       const response = await requestOrderDelivery(body);
       console.log(response);
+      toast.success('Заявка создалась', { autoClose: 5000 });
     } catch (e) {
       console.log(e);
     }
@@ -104,17 +107,17 @@ export function OrderDelivery() {
             <Typography variant="h5">
               Заказ
               {' '}
-              {service.id}
+              {service?.id || data[0].id}
             </Typography>
             <Typography>
               Наименование:
               {' '}
-              {service.name}
+              {service?.name || data[0].serviceName}
             </Typography>
             <Typography>
               Отделение:
               {' '}
-              {service.organizationName}
+              {service?.organizationName || data[0].organizationName}
             </Typography>
             <Typography variant="h5">Данные получателя</Typography>
             <Typography>
@@ -166,8 +169,8 @@ export function OrderDelivery() {
         <Typography variant="h5" sx={{ mb: 2 }} textAlign="center">
           Стоимость доставки
         </Typography>
-        {data.map((provider: any) => (
-          <Card sx={{ padding: 3, mb: 1, mt: 1 }}>
+        {providers.map((provider: any) => (
+          <Card key={provider.name} sx={{ padding: 3, mb: 1, mt: 1 }}>
             <Typography variant="h6">{provider.name}</Typography>
             <Typography>
               Расстояние между двумя точками:
@@ -176,7 +179,11 @@ export function OrderDelivery() {
               {' '}
               km
             </Typography>
-            <Typography>Ожидаемая цена:</Typography>
+            <Typography>
+              Ожидаемая цена:
+              {' '}
+              {d * 450}
+            </Typography>
             <Button
               variant="contained"
               color="success"

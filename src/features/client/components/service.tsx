@@ -84,7 +84,7 @@ export function Service() {
               }}
               onClick={() => navigate(
                 `/client/services/${id}/address`,
-                { state: { service, user } },
+                { state: { service, user, data } },
               )}
             >
               Заказать доставку

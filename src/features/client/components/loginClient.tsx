@@ -9,6 +9,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import clientApi from '~/api/client/api';
+import { assignToken } from '~/features/auth';
+import { useAppDispatch } from '~/store';
 
 export function LoginClient() {
   const [IIN, setIIN] = useState('');
@@ -22,9 +24,11 @@ export function LoginClient() {
 
   const { requestId } = useParams();
 
+  const dispatch = useAppDispatch();
   async function handleClick() {
     try {
-      const { user } = await postIINforData({ iin: IIN }).unwrap();
+      const { user, token } = await postIINforData({ iin: IIN }).unwrap();
+      dispatch(assignToken({ token }));
       navigate(`/client/services/${requestId}`, { state: { user } });
     } catch (e) {
       toast.error('Упс вышла ошибочка');

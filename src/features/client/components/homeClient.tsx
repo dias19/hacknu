@@ -8,6 +8,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import clientApi from '~/api/client/api';
+import { assignToken } from '~/features/auth';
+import { useAppDispatch } from '~/store';
 
 export function HomeClient() {
   // eslint-disable-next-line max-len
@@ -18,6 +20,8 @@ export function HomeClient() {
   const [verificationID, setVerificationID] = useState(0);
 
   const [dogovor, setDogovor] = useState(false);
+
+  const dispatch = useAppDispatch();
 
   const [dataObrabotka, setDataObrabotka] = useState(false);
 
@@ -45,6 +49,8 @@ export function HomeClient() {
         verificationCode: smsCode,
         verificationId: verificationID,
       }).unwrap();
+
+      dispatch(assignToken(response));
 
       if (dogovor && dataObrabotka) {
         navigate('/client/services', { state: { response } });

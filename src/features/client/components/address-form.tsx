@@ -29,8 +29,9 @@ export function AddressFormClient() {
 
   const location = useLocation() as any;
 
-  const { service, user } = location.state;
+  const { service, user, data } = location.state;
 
+  console.log(service, user, data);
   const a = {
     // eslint-disable-next-line max-len
     Ё: 'YO',
@@ -146,10 +147,10 @@ export function AddressFormClient() {
 
     fetch(url)
       .then((response) => response.json())
-      .then((data: any) => {
-        if (data.length > 0) {
-          const latitude = data[0].lat;
-          const longitude = data[0].lon;
+      .then((dataLocation: any) => {
+        if (dataLocation.length > 0) {
+          const latitude = dataLocation[0].lat;
+          const longitude = dataLocation[0].lon;
           const userLocation = { dataForm, latitude, longitude };
           if (orderForMyself) {
             navigate('/client/services/1/delivery', {
@@ -159,6 +160,7 @@ export function AddressFormClient() {
                 user,
                 orderForMyself,
                 dataForm,
+                data,
               },
             });
           } else if (!orderForMyself) {
@@ -170,6 +172,7 @@ export function AddressFormClient() {
                 iin,
                 dataForm,
                 user,
+                data,
               },
             });
           }
